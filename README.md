@@ -14,3 +14,13 @@ npm install
 ```
 npm start
 ```
+
+## Run Mochawesome is a custom reporter
+```
+npm test -- --reporter mochawesome
+```
+
+## Test coverage
+```
+The exact report is in the coverage folder
+```

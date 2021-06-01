@@ -22,7 +22,8 @@
     "build": "node build",
     "build:watch": "nodemon --watch build.js --watch templates -e js,md,html build.js",
     "start": "node index",
-    "test": "mocha --reporter spec"
+    "test": "nyc --reporter=html --reporter=text mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
     "chai": "^4.3.4",
@@ -33,9 +34,12 @@
     "mocha": "^8.4.0"
   },
   "devDependencies": {
+    "coveralls": "^3.1.0",
     "Faker": "~0.7.2",
     "husky": "^4.2.2",
+    "mochawesome": "^6.2.2",
     "nodemon": "^2.0.2",
+    "nyc": "^15.1.0",
     "pupa": "^2.0.1",
     "rosie": "~2.0.1",
     "showdown": "^1.9.1",

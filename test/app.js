@@ -15,7 +15,7 @@ chai.use(chaiHttp);
   */
 describe('Users APIs',() =>{
     describe('Search Delphine username /users',() =>{
-        it("It should return all delphine s' details ",(done) => {
+        it("It should return all delphines'details ",(done) => {
             const user_name  = "Delphine";
             chai.request(server)
                 .get("/users?username="+user_name)
@@ -76,6 +76,9 @@ describe('Posts APIs',() =>{
   * For each post, fetch the comments and validate if the emails in the
 comment section are in the proper format..”. /GET route
   */
+
+    // This function will run  every test to email validation
+
     function ValidateEmail(mail) 
     {
         if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(mail))
@@ -355,4 +358,94 @@ describe('Comments APIs',() =>{
              });
         });     
     });
+/*
+  * Think of various scenarios for the test workflow, all the things that
+can go wrong. Add them to test coverage.”. /GET route
+  */
+describe('Users APIs',() =>{
+    describe(' Search  username /Users',() =>{
+        it("Search  username written by the invalid path url ",(done) => {
+            chai.request(server)
+                 //Invalid path url = "/userss"
+                .get("/userss")
+                .end((_err,response) => {
+                    response.should.have.status(404)
+                done();
+            });           
+        });
+        it("Search  username written by the invalid username ",(done) => {
+            const invalidUsername = "Test";
+            chai.request(server)
+                .get("/users?username="+invalidUsername)
+                .end((_err,response) => {
+                response.should.have.status(200);
+                response.body.should.be.a('array').eql([]);
+            done();
+          });           
+       });
+    });                        
+});
+    describe('Posts APIs',() =>{
+        describe(' Details fetched /posts',() =>{
+            it("Search postid  by the invalid path url",(done) => {
+                chai.request(server)
+                     //Invalid path url = "/postss"
+                    .get("/postss")
+                    .end((_err,response) => {
+                    response.should.have.status(404)
+                done();
+            });           
+        });
+        it("Search  postid by the invalid postId ",(done) => {
+            const invalidpostId = "Test";
+            chai.request(server)
+                .get("/users?username="+invalidpostId)
+                .end((_err,response) => {
+                response.should.have.status(200);
+                response.body.should.be.a('array').eql([]);
+            done();
+          });           
+       });
+    });
+});
+    describe('Comments APIs',() =>{
+        describe(' Details fetched /comments',() =>{
+            it("Search comments  by the invalid path url",(done) => {
+                chai.request(server)
+                     //Invalid path url = "/commentss"
+                    .get("/commentss")
+                    .end((_err,response) => {
+                    response.should.have.status(404)
+                done();
+            });           
+        });
+            it("Search  comments by the invalid postId ",(done) => {
+                const invalidpostId = "Test";
+                chai.request(server)
+                    .get("/comments?postId="+invalidpostId)
+                    .end((_err,response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a('array').eql([]);
+                done();
+            });           
+        });
+    });
+});
+    describe(' jsonplaceholder APIs',() =>{
+        describe(' General services /',() =>{
+            it("If req.path === '/' ",(done) => {
+                chai.request(server)
+                    .get('/')
+                    .end((_err,response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.not.a('array')
+                done();           
+            });
+        });
+    });
+});             
+                         
+
+        
+        
 
